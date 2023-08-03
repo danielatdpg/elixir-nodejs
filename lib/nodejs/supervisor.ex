@@ -89,6 +89,7 @@ defmodule NodeJS.Supervisor do
     pool_name = supervisor_pool(opts)
     pool_size = Keyword.get(opts, :pool_size, @default_pool_size)
     worker = Keyword.get(opts, :worker, NodeJS.Worker)
+    env = Keyword.get(opts, :env, [])
 
     pool_opts = [
       max_overflow: 0,
@@ -98,7 +99,7 @@ defmodule NodeJS.Supervisor do
     ]
 
     children = [
-      :poolboy.child_spec(pool_name, pool_opts, [path])
+      :poolboy.child_spec(pool_name, pool_opts, [path, env])
     ]
 
     opts = [strategy: :one_for_one]
